@@ -5,6 +5,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes');
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 var app = express();
 
 app.use(logger('dev'));
