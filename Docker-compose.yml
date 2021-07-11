@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    command: npm run migrate
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # Mysql
+  db:
+    container_name: database
+    image: mysql:5.7.22
+    environment:
+      MYSQL_DATABASE: $DATABASE_NAME
+      MYSQL_USER: $DATABASE_USER
+      MYSQL_ROOT_PASSWORD: $DATABASE_ROOT_PASSWORD
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    ports:
+      - 33066:3306
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
