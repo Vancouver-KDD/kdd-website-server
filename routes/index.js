@@ -12,4 +12,5 @@ router.get('/', function(req, res, next) {
 router.route('/users').post(userController.createUser)
                     .get(userController.listUser);
 
+
 module.exports = router;
