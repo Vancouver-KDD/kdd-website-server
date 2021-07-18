@@ -2,14 +2,14 @@
 ## Installation
 
 **Development environment via Docker-compose**
-The application will automatically use .env file on the project root directory instead of using system's environment variables in local environment
+In local environment, the application will be using .env file as it's default configuration setting instead of system environment variables.
 
 First, copy and rename .env.example to .env
 ```
 cp .env.exmaple .env
 ```
 
-Fill values to .env file. The values may vary depending on your local environment.
+Fill values to .env file. The requiring values may vary depending on your local environment settings but DATABASE_HOST must always follow the database service's name written in the Docker-compose.yml file.
 ```
 e.g.)
 DATABASE_NAME=main
@@ -18,10 +18,10 @@ DATABASE_USER=root
 DATABASE_ROOT_PASSWORD=secret
 ```
 
-Boot up Docker-compose
+Now let's boot up Docker-compose
 
 ```
 docker-compose up
 ```
 
-Test your connectivity by typing 'localhost:3000' to your browser url
+Test your connectivity by typing 'localhost:3000' url on your browser navigator. You're supposed to see the welcome index page.
