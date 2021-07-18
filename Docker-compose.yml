@@ -1,17 +1,76 @@
 version: '3.8'
 services:
-  app:
-    container_name: app
+  # API Gateway
+  api-gateway:
+    container_name: api-gateway
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./api-gateway
+      dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
-    command: npm run migrate
     volumes:
-      - .:/app
+      - ./api-gateway:/api-gateway
+    networks:
+      - app-network
+
+  # Event Bus
+  event-bus:
+    container_name: event-bus
+    build:
+      context: ./event-bus
+      dockerfile: ./Dockerfile
+    ports:
+      - "4001:4001"
+    volumes:
+      - ./event-bus:/event-bus
     depends_on:
       - db
+    networks:
+      - app-network
+
+  # Query
+  query:
+    container_name: query
+    build:
+      context: ./query
+      dockerfile: ./Dockerfile
+    ports:
+      - "4002:4002"
+    volumes:
+      - ./query:/query
+    depends_on:
+      - event-bus
+      - user
+    networks:
+      - app-network
+
+  # Events
+  event:
+    container_name: event
+    build:
+      context: ./events
+      dockerfile: ./Dockerfile
+    ports:
+      - "4003:4003"
+    volumes:
+      - ./events:/events
+    depends_on:
+      - event-bus
+    networks:
+      - app-network
+
+  # Users
+  user:
+    container_name: user
+    build:
+      context: ./users
+      dockerfile: ./Dockerfile
+    ports:
+      - "4004:4004"
+    volumes:
+      - ./users:/users
+    depends_on:
+      - event-bus
     networks:
       - app-network
 
