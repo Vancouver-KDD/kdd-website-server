@@ -40,7 +40,6 @@ services:
       - ./query:/query
     depends_on:
       - event-bus
-      - user
     networks:
       - app-network
 
