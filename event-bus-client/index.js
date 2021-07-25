@@ -1,10 +1,10 @@
-var express = require('express');
+const express = require('express');
 const axios = require('axios');
 
 var eventBusListener = express.Router();
 
-const EVENT_BUS_HOST = "localhost";
-const EVENT_BUS_PORT = '4001';
+const EVENT_BUS_HOST = "event-bus";
+const EVENT_BUS_PORT = "4001";
 
 let connection;
 const callbacks = [];
