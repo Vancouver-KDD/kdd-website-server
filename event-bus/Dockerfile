@@ -4,7 +4,7 @@ FROM node:16-alpine3.11
 WORKDIR /event-bus
 
 # Copy Source files
-COPY . .
+COPY ./event-bus .
 
 # Remove dependent modules
 RUN rm -rf node_modules
