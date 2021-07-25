@@ -1,7 +1,9 @@
 const express = require("express");
 const axios = require("axios");
+const bodyParser = require('body-parser');
 
 const app = express();
+app.use(bodyParser.json());
 
 /**
  * Subscription Format
@@ -21,7 +23,9 @@ app.post("/subscriptions", (req, res) => {
   const subscription = req.body;
   subscribers.push(subscription);
 
-  console.log("New Subscriber: " + subscription.subscriberName);
+  console.log("New Subscriber: ");
+  console.log(subscription);
+
   res.send({ status: "OK" });
 });
 
@@ -46,11 +50,12 @@ app.post("/events", (req, res) => {
   const event = req.body;
 
   subscribers.forEach(subscriber => {
-    if (subscriber.type !== req.type)
+    if (subscriber.type !== event.type)
       return;
-    axios.post(`${subscriber.host}:${subscriber.port}/events`, {
-      type: req.type,
-      data: req.data
+
+    axios.post(`http://${subscriber.host}:${subscriber.port}/events`, {
+      type: event.type,
+      data: event.data
     });
   });
 
