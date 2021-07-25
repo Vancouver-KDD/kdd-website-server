@@ -4,8 +4,8 @@ services:
   api-gateway:
     container_name: api-gateway
     build:
-      context: ./api-gateway
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./api-gateway/Dockerfile
     ports:
       - "3000:3000"
     volumes:
@@ -17,8 +17,8 @@ services:
   event-bus:
     container_name: event-bus
     build:
-      context: ./event-bus
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./event-bus/Dockerfile
     ports:
       - "4001:4001"
     volumes:
@@ -32,8 +32,8 @@ services:
   query:
     container_name: query
     build:
-      context: ./query
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./query/Dockerfile
     ports:
       - "4002:4002"
     volumes:
@@ -47,8 +47,8 @@ services:
   event:
     container_name: event
     build:
-      context: ./events
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./events/Dockerfile
     ports:
       - "4003:4003"
     volumes:
@@ -62,8 +62,8 @@ services:
   user:
     container_name: user
     build:
-      context: ./users
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./users/Dockerfile
     ports:
       - "4004:4004"
     volumes:

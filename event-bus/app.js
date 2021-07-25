@@ -74,7 +74,7 @@ app.get("/events", (req, res) => {
 
 
 app.get("/heartbeat", (req, res) => {
-  console.log("Heatbeat Request Received");
+  console.log(`[200] Heatbeat Requested`);
   res.send({ status: 'ok' });
 })
 

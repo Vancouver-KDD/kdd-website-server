@@ -1,10 +1,13 @@
 FROM node:16-alpine3.11
 
 # Create work directory
-WORKDIR /query
+WORKDIR /
 
 # Copy Source files
-COPY . .
+COPY ./query ./query
+COPY ./event-bus-client ./event-bus-client
+
+WORKDIR /query
 
 # Remove dependent modules
 RUN rm -rf node_modules
