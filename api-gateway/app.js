@@ -1,25 +1,17 @@
-const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
-const proxy = require('express-http-proxy');
+const http = require('http')
+const httpProxy = require('http-proxy');
 
-const app = express();
-app.use(cors());
+const QUERY_SERVICE_HOST = 'http://query:4002';
+const EVENT_SERVICE_HOST = 'http://event:4003';
+const USER_SERVICE_HOST = 'http://user:4004';
 
-app.use('/users', proxy('localhost:4002', {
-  filter: function(req, res) {
-     return req.method == 'GET';
+const proxy = httpProxy.createProxyServer({});
+
+const proxyServer = http.createServer((req, res) => {
+  if (req.url === "/users") {
+    proxy.web(req, res, { target: `${USER_SERVICE_HOST}` });
   }
-}));
-
-app.use('/users', proxy('localhost:4004', {
-  filter: function(req, res) {
-     return req.method == 'POST';
-  }
-}));
-
-app.get("/", (req, res) => res.send("test"));
-
-app.listen(3000, () => {
-    console.log("Listening on 3000");
 });
+
+console.log("Listening 3000");
+proxyServer.listen(3000);
