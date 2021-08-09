@@ -1,10 +1,13 @@
 FROM node:16-alpine3.11
 
 # Create work directory
-WORKDIR /event-bus
+WORKDIR /
 
 # Copy Source files
-COPY ./event-bus .
+COPY ./photo ./photo
+COPY ./event-bus-client ./event-bus-client
+
+WORKDIR /photo
 
 # Remove dependent modules
 RUN rm -rf node_modules
@@ -13,5 +16,5 @@ RUN rm -rf node_modules
 RUN npm install
 
 # Open port 3000
-EXPOSE 4001
+EXPOSE 4004
 CMD npm start

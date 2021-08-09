@@ -4,7 +4,7 @@ FROM node:16-alpine3.11
 WORKDIR /api-gateway
 
 # Copy Source files
-COPY . .
+COPY ./api-gateway .
 
 # Remove dependent modules
 RUN rm -rf node_modules

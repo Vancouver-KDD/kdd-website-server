@@ -4,8 +4,8 @@ services:
   api-gateway:
     container_name: api-gateway
     build:
-      context: ./api-gateway
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./api-gateway/Dockerfile
     ports:
       - "3000:3000"
     volumes:
@@ -17,14 +17,12 @@ services:
   event-bus:
     container_name: event-bus
     build:
-      context: ./event-bus
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./event-bus/Dockerfile
     ports:
       - "4001:4001"
     volumes:
       - ./event-bus:/event-bus
-    depends_on:
-      - db
     networks:
       - app-network
 
@@ -32,60 +30,44 @@ services:
   query:
     container_name: query
     build:
-      context: ./query
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./query/Dockerfile
     ports:
       - "4002:4002"
     volumes:
       - ./query:/query
     depends_on:
       - event-bus
-      - user
     networks:
       - app-network
 
-  # Events
-  event:
-    container_name: event
+  # Volunteers
+  volunteer:
+    container_name: volunteer
     build:
-      context: ./events
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./volunteer/Dockerfile
     ports:
       - "4003:4003"
     volumes:
-      - ./events:/events
+      - ./volunteer:/volunteer
     depends_on:
       - event-bus
     networks:
       - app-network
 
-  # Users
-  user:
-    container_name: user
+  # Photo
+  photo:
+    container_name: photo
     build:
-      context: ./users
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./photo/Dockerfile
     ports:
       - "4004:4004"
     volumes:
-      - ./users:/users
+      - ./photo:/photo
     depends_on:
       - event-bus
-    networks:
-      - app-network
-
-  # Mysql
-  db:
-    container_name: database
-    image: mysql:5.7.22
-    environment:
-      MYSQL_DATABASE: $DATABASE_NAME
-      MYSQL_USER: $DATABASE_USER
-      MYSQL_ROOT_PASSWORD: $DATABASE_ROOT_PASSWORD
-    volumes:
-      - ./dbdata:/var/lib/mysql
-    ports:
-      - 33066:3306
     networks:
       - app-network
 
