@@ -4,10 +4,10 @@ FROM node:16-alpine3.11
 WORKDIR /
 
 # Copy Source files
-COPY ./users .
+COPY ./photo ./photo
 COPY ./event-bus-client ./event-bus-client
 
-WORKDIR /users
+WORKDIR /photo
 
 # Remove dependent modules
 RUN rm -rf node_modules

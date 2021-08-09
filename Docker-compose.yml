@@ -23,8 +23,6 @@ services:
       - "4001:4001"
     volumes:
       - ./event-bus:/event-bus
-    depends_on:
-      - db
     networks:
       - app-network
 
@@ -43,48 +41,33 @@ services:
     networks:
       - app-network
 
-  # Events
-  event:
-    container_name: event
+  # Volunteers
+  volunteer:
+    container_name: volunteer
     build:
       context: .
-      dockerfile: ./events/Dockerfile
+      dockerfile: ./volunteer/Dockerfile
     ports:
       - "4003:4003"
     volumes:
-      - ./events:/events
+      - ./volunteer:/volunteer
     depends_on:
       - event-bus
     networks:
       - app-network
 
-  # Users
-  user:
-    container_name: user
+  # Photo
+  photo:
+    container_name: photo
     build:
       context: .
-      dockerfile: ./users/Dockerfile
+      dockerfile: ./photo/Dockerfile
     ports:
       - "4004:4004"
     volumes:
-      - ./users:/users
+      - ./photo:/photo
     depends_on:
       - event-bus
-    networks:
-      - app-network
-
-  # Mysql
-  db:
-    container_name: database
-    image: mysql:5.7.22
-    environment:
-      MYSQL_DATABASE: $DATABASE_NAME
-      MYSQL_USER: $DATABASE_USER
-      MYSQL_ROOT_PASSWORD: $DATABASE_ROOT_PASSWORD
-    volumes:
-      - ./dbdata:/var/lib/mysql
-    ports:
-      - 33066:3306
     networks:
       - app-network
 

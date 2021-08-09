@@ -9,16 +9,41 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(eventBus.eventBusListener);
 
-const users = [];
-const events = [];
+const volunteers = [];
+const photos = [];
 
-const onUserCreated = (data) => {
-    console.log(`Saved the newly created user info's: ${data}`);
-    users.push(data);
-} 
+app.get("/volunteers", (req, res) => {
+    res.send(volunteers);
+});
 
-eventBus.connect({ subscriberName: 'Query Service', host: 'query', port: 4002 }).then(() => {
-    eventBus.subscribe({ eventType: 'User Created', cb: onUserCreated });
+app.get("/volunteer/:volunteerId", (req, res) => {
+    const { volunteerId } = req.params;
+    let data;
+    volunteers.forEach(v => {
+        if(v.id === volunteerId)
+            data = v;
+    });
+    res.send(data);
+});
+
+eventBus.subscribe('Volunteer Created', data => {
+    volunteers.push(data);
+});
+
+axios.get("/events").then(res => {
+    const body = res.body;
+    if (body.type === "Voluteer Created")
+        volunteers.push(body.data);
+    else if (body.type === "Photo Created")
+        photos.push(body.data)
+    else if (body.type === "Volunteer Removed") {
+        let idx;
+        volunteers.forEach((v, vIdx) => {
+            if (v.id === body.data.id)
+                idx = vIdx;
+        });
+        volunteers.splice(idx, 1);
+    }
 });
 
 app.listen(4002, async () => {
