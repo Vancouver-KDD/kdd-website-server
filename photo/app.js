@@ -10,18 +10,21 @@ app.use(eventBus.eventBusListener);
 const photos = [];
 
 app.post('/photos', (req, res) => {
-  const body = req.body;
   const photo = {
     id: uuid(),
-    image_url: body.image_url,
-    description: body.description,
-    uploader_name: body.uploader_name,
-    create_at: body.create_at
+    image_url: req.body.image_url,
+    description: req.body.description,
+    uploader_name: req.body.uploader_name,
+    create_at: req.body.create_at
   }
   photos.push(photo);
 
   /**
-   * Public 'photo Created' event
+   * A photo posting function
+   * @param {string} image_url url of image
+   * @param {string} description a berief description about the picture (location, people, and purpose) 
+   * @param {string} uploader_name name of uploader (not the taker)
+   * @param {date}, date of upload
    */
   eventBus.publish('photo Created', photo);
 

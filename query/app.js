@@ -37,11 +37,7 @@ app.get("/photos", (req, res) => {
 
 app.get("/photo/:photoId", (req, res) => {
     const { photoId } = req.params;
-    let data;
-    photos.forEach(p => {
-        if(p.id === photoId)
-            data = p;
-    });
+    const data = photos.find(photo => photoId.id === photoId)
     res.send(data);
 });
 
