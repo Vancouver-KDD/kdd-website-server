@@ -30,6 +30,26 @@ eventBus.subscribe('Volunteer Created', data => {
     volunteers.push(data);
 });
 
+//Photo API get method
+app.get("/photos", (req, res) => {
+    res.send(volunteers);
+});
+
+app.get("/photo/:photoId", (req, res) => {
+    const { photoId } = req.params;
+    let data;
+    photos.forEach(p => {
+        if(p.id === photoId)
+            data = p;
+    });
+    res.send(data);
+});
+
+eventBus.subscribe('Photo Created', data => {
+    volunteers.push(data);
+});
+
+
 axios.get("/events").then(res => {
     const body = res.body;
     if (body.type === "Voluteer Created")
