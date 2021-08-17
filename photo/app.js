@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.use(eventBus.eventBusListener);
 
 const photos = [];
-
+// git test
 app.post('/photos', (req, res) => {
   const photo = {
     id: uuid(),
@@ -30,7 +30,6 @@ app.post('/photos', (req, res) => {
 
   res.send(photo);
 });
-
 
 app.listen(4004, () => {
   console.log("Listening on 4004");
